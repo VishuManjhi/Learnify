@@ -1,6 +1,6 @@
 # Learnify - Gamified Learning Management System
 
-A full-stack, responsive Learning Management System (LMS) built with Next.js, Supabase, and React. Learnify gamifies the learning experience with points, badges, levels, and leaderboards.
+A full-stack, responsive Learning Management System (LMS) built with Next.js, MongoDB, and React. Learnify gamifies the learning experience with points, badges, levels, and leaderboards.
 
 ## Features
 
