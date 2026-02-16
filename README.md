@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 # 🌌 LEARNIFY (NEXUS ACADEMY)
+=======
+ 🌌 LEARNIFY 
+>>>>>>> 1100dc297f686d3050960589fb88998a343422c7
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-blue?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
+<<<<<<< HEAD
 > **Welcome to Learnify.** This isn't just a standard LMS—it's a high-performance training environment designed with a modern, gamified "Nexus" aesthetic.
+=======
+ **Welcome to Learnify.** This isn't just a standard LMS—it's a high-performance training environment designed with a modern, gamified "Nexus" aesthetic.
+>>>>>>> 1100dc297f686d3050960589fb88998a343422c7
 
 ---
 
@@ -16,12 +24,29 @@ Experience a premium dark theme designed for maximum focus and visual excellence
 ### 🛡️ Student Dashboard
 Track your progress, monitor your Experience Points (XP), and manage your enrolled courses.
 ![Student Dashboard](public/student-dashboard.png)
+<<<<<<< HEAD
 *Place your screenshot here*
+=======
+<img width="1918" height="981" alt="image" src="https://github.com/user-attachments/assets/a1707cd9-c73b-4a37-a918-bd27573c4ed3" />
+
+A Global Leaderboard to be at the top!
+![Student Dashboard](public/leaderboard.png)
+<img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/67d89d21-8dc4-47e2-902d-eb02a5de32e6" />
+
+
+
+
+>>>>>>> 1100dc297f686d3050960589fb88998a343422c7
 
 ### 🦾 Teacher Dashboard
 Manage your student registry, create new courses (Knowledge Realms), and design technical assessments.
 ![Teacher Dashboard](public/teacher-dashboard.png)
+<<<<<<< HEAD
 *Place your screenshot here*
+=======
+<img width="1916" height="978" alt="image" src="https://github.com/user-attachments/assets/9a74e89d-33bf-434c-8333-a05cd2c1969a" />
+
+>>>>>>> 1100dc297f686d3050960589fb88998a343422c7
 
 ---
 
@@ -96,4 +121,8 @@ Want to expand the Nexus? Pull requests are welcome for new UI modules or gamifi
 
 ---
 
+<<<<<<< HEAD
 Developed with ⚡ at **Nexus Academy**.
+=======
+Developed with <3 at **Learnify**.
+>>>>>>> 1100dc297f686d3050960589fb88998a343422c7
