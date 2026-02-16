@@ -1,11 +1,11 @@
-<img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/1c1f82fa-b866-4ac5-a33a-866700d98a9b" /># 🌌 LEARNIFY (NEXUS ACADEMY)
+ 🌌 LEARNIFY 
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-blue?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> **Welcome to Learnify.** This isn't just a standard LMS—it's a high-performance training environment designed with a modern, gamified "Nexus" aesthetic.
+ **Welcome to Learnify.** This isn't just a standard LMS—it's a high-performance training environment designed with a modern, gamified "Nexus" aesthetic.
 
 ---
 
@@ -18,11 +18,12 @@ Track your progress, monitor your Experience Points (XP), and manage your enroll
 ![Student Dashboard](public/student-dashboard.png)
 <img width="1918" height="981" alt="image" src="https://github.com/user-attachments/assets/a1707cd9-c73b-4a37-a918-bd27573c4ed3" />
 
+A Global Leaderboard to be at the top!
 ![Student Dashboard](public/leaderboard.png)
 <img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/67d89d21-8dc4-47e2-902d-eb02a5de32e6" />
 
 
-*Place your screenshot here*
+
 
 
 ### 🦾 Teacher Dashboard
