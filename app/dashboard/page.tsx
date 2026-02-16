@@ -9,7 +9,7 @@ export default async function DashboardPage() {
 
   if (!session || !session.user) {
     redirect("/auth/login")
-  }
+  } 
 
   const user = session.user as any
 

@@ -11,7 +11,7 @@ export const courseSchema = {
 }
 
 export const lessonSchema = {
-  title: (val: string) => val.length >= 3 || "Title must be at least 3 characters",
+  title: (val: string) => val.length >= 3 || "Title munst be at least 3 characters",
   content: (val: string) => val.length >= 10 || "Content must be at least 10 characters",
 }
 

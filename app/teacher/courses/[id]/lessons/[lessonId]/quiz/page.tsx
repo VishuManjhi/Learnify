@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import Link from "next/link"
+import { Upload, FileText, X } from "lucide-react"
 
 interface CsvQuestionError {
   line: number
@@ -77,6 +78,8 @@ export default function LessonQuizEditorPage() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [hasExistingQuiz, setHasExistingQuiz] = useState(false)
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const loadExistingQuiz = async () => {
@@ -157,6 +160,43 @@ export default function LessonQuizEditorPage() {
     }
   }
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.name.endsWith(".csv") && !file.type.includes("csv")) {
+      setError("Please upload a CSV file (.csv)")
+      return
+    }
+
+    setUploadedFileName(file.name)
+    setError(null)
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const text = event.target?.result as string
+      if (text) {
+        setCsv(text)
+        setSuccess(`CSV file "${file.name}" loaded successfully. Review the questions below.`)
+      }
+    }
+    reader.onerror = () => {
+      setError("Failed to read the CSV file. Please try again.")
+      setUploadedFileName(null)
+    }
+    reader.readAsText(file)
+  }
+
+  const handleRemoveFile = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+    setUploadedFileName(null)
+    setCsv("")
+    setSuccess(null)
+  }
+
   if (loading) {
     return <div className="p-6">Loading quiz editor...</div>
   }
@@ -221,22 +261,68 @@ export default function LessonQuizEditorPage() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="csv">Questions CSV</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="csv">Questions CSV</Label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".csv,text/csv"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      id="csv-upload"
+                    />
+                    <Label
+                      htmlFor="csv-upload"
+                      className="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm border rounded-md hover:bg-muted transition-colors"
+                    >
+                      <Upload className="w-4 h-4" />
+                      Upload CSV
+                    </Label>
+                    {uploadedFileName && (
+                      <div className="flex items-center gap-2 px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-md">
+                        <FileText className="w-4 h-4" />
+                        <span className="max-w-[200px] truncate">{uploadedFileName}</span>
+                        <button
+                          type="button"
+                          onClick={handleRemoveFile}
+                          className="hover:text-destructive transition-colors"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <Textarea
                   id="csv"
                   value={csv}
-                  onChange={(e) => setCsv(e.target.value)}
+                  onChange={(e) => {
+                    setCsv(e.target.value)
+                    if (uploadedFileName) {
+                      setUploadedFileName(null)
+                      if (fileInputRef.current) {
+                        fileInputRef.current.value = ""
+                      }
+                    }
+                  }}
                   rows={8}
                   placeholder={
                     "One question per line, comma-separated:\n" +
                     "Question text, Option A, Option B, Option C, Option D, Correct letter (A-D)\n\n" +
                     'Example:\n' +
-                    'What is 2+2?, 3, 4, 5, 6, B'
+                    'What is 2+2?, 3, 4, 5, 6, B\n' +
+                    'What is the capital of France?, London, Paris, Berlin, Madrid, B'
                   }
                 />
-                <p className="text-xs text-muted-foreground">
-                  When you save, any existing quiz for this lesson will be replaced with the questions from this CSV.
-                </p>
+                <div className="space-y-1">
+                  <p className="text-xs text-muted-foreground">
+                    Upload a CSV file or paste CSV content directly. Format: Question, Option A, Option B, Option C, Option D, Correct (A-D)
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    When you save, any existing quiz for this lesson will be replaced with the questions from this CSV.
+                  </p>
+                </div>
               </div>
 
               {error && (

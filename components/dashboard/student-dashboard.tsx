@@ -146,6 +146,7 @@ export function StudentDashboard({ userId }: { userId: string }) {
           <TabsList>
             <TabsTrigger value="courses">My Courses</TabsTrigger>
             <TabsTrigger value="quizzes">My Quizzes</TabsTrigger>
+            <TabsTrigger value="forum">Forum</TabsTrigger>
             <TabsTrigger value="browse">Browse Courses</TabsTrigger>
             <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
           </TabsList>
@@ -228,6 +229,27 @@ export function StudentDashboard({ userId }: { userId: string }) {
                     ))}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="forum">
+            <Card>
+              <CardHeader>
+                <CardTitle>Community Forum</CardTitle>
+                <CardDescription>
+                  Connect with fellow students, ask questions, and share knowledge
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-muted-foreground">
+                    Join discussions, ask questions, and help your peers learn.
+                  </p>
+                  <Link href="/forum">
+                    <Button className="w-full md:w-auto">Go to Forum</Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
