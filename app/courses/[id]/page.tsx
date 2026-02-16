@@ -74,7 +74,7 @@ export default async function CourseDetailPage({
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
             <div className="space-y-4">
               <Badge variant="outline" className="rounded-full border-blue-500/20 text-blue-400 bg-blue-500/5 px-4 py-1 font-black tracking-widest uppercase text-[9px]">
-                Knowledge Realm Module
+                Course Module
               </Badge>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter italic uppercase leading-tight">
                 {course.title}
@@ -117,14 +117,14 @@ export default async function CourseDetailPage({
                 }}
               >
                 <Button className="h-14 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95 group">
-                  Initialize Sync
+                  Enroll Now
                   <Zap className="w-5 h-5 ml-2 group-hover:animate-pulse" />
                 </Button>
               </form>
             )}
             {isEnrolled && (
               <Badge className="h-12 px-8 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-black uppercase tracking-widest text-[10px]">
-                Synchronization Active
+                Enrolled Successfully
               </Badge>
             )}
           </div>
@@ -151,7 +151,7 @@ export default async function CourseDetailPage({
                 <CardHeader className="p-10 pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <Sparkles className="w-5 h-5 text-blue-400" />
-                    <CardTitle className="text-2xl font-black italic uppercase tracking-tighter">Realm Intel</CardTitle>
+                    <CardTitle className="text-2xl font-black italic uppercase tracking-tighter">Course Information</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="px-10 pb-10">
@@ -166,7 +166,7 @@ export default async function CourseDetailPage({
                   <CardHeader className="p-8 pb-3">
                     <div className="flex items-center gap-3">
                       <BarChart className="w-4 h-4 text-blue-400/60" />
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Complexity Level</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Difficulty Level</p>
                     </div>
                   </CardHeader>
                   <CardContent className="px-8 pb-8 pt-0">
@@ -180,7 +180,7 @@ export default async function CourseDetailPage({
                   <CardHeader className="p-8 pb-3">
                     <div className="flex items-center gap-3">
                       <Layers className="w-4 h-4 text-blue-400/60" />
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Knowledge Category</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Course Category</p>
                     </div>
                   </CardHeader>
                   <CardContent className="px-8 pb-8 pt-0">
@@ -198,9 +198,9 @@ export default async function CourseDetailPage({
               <CardHeader className="p-12 border-b border-white/10 bg-white/[0.02]">
                 <div className="flex justify-between items-center">
                   <div className="space-y-1">
-                    <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Lesson Nodes</CardTitle>
+                    <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Lessons</CardTitle>
                     <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">
-                      {lessons?.length || 0} Synchronized Modules Identified
+                      {lessons?.length || 0} Lessons Identified
                     </CardDescription>
                   </div>
                   <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
@@ -250,7 +250,7 @@ export default async function CourseDetailPage({
                 ) : (
                   <div className="p-24 text-center space-y-4">
                     <BookOpen className="w-12 h-12 text-white/5 mx-auto" />
-                    <p className="text-blue-100/20 font-black italic uppercase tracking-[0.2em]">Node Database Empty</p>
+                    <p className="text-blue-100/20 font-black italic uppercase tracking-[0.2em]">Lesson List Empty</p>
                   </div>
                 )}
               </CardContent>

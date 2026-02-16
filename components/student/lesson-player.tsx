@@ -99,12 +99,12 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
         })
 
         if (progressRes.ok) {
-          setStatusMessage({ text: "✅ TRANSFERENCE COMPLETE: Mastery recognized. Points awarded.", success: true })
+          setStatusMessage({ text: "✅ LESSON COMPLETE: Progress saved. Points awarded.", success: true })
         } else {
           setStatusMessage({ text: "Quiz passed, but failed to synchronize progress.", success: false })
         }
       } else {
-        setStatusMessage({ text: "❌ SYNCHRONIZATION FAILURE: Knowledge retention below threshold. Review required.", success: false })
+        setStatusMessage({ text: "❌ QUIZ FAILED: Score below passing threshold. Please review the lesson.", success: false })
       }
     } catch (error) {
       setStatusMessage({ text: "Critical error during submission.", success: false })
@@ -172,7 +172,7 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
           <Textarea
             value={answers[question._id] || ""}
             onChange={(e) => handleOptionChange(question._id, e.target.value)}
-            placeholder="Synthesize your response..."
+            placeholder="Enter your answer..."
             className="bg-[#030014]/50 border-white/10 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-2xl p-6 text-white placeholder:text-white/20 min-h-[120px]"
           />
         </CardContent>
@@ -193,16 +193,16 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
           <div className="space-y-3">
             <Link href={`/courses/${courseId}`} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-blue-400/60 hover:text-blue-400 transition-colors mb-4 group">
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Return to Module Intel
+              Back to Course
             </Link>
             <h1 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">{title}</h1>
             <div className="flex items-center gap-4">
               <Badge className="bg-blue-600/10 text-blue-400 border-blue-500/20 font-black tracking-widest uppercase text-[9px] px-3 py-1">
-                Active Lesson Player
+                Lesson Viewer
               </Badge>
               <div className="flex items-center gap-2 text-white/20">
                 <Clock className="w-3.5 h-3.5" />
-                <p className="text-[10px] font-black uppercase tracking-widest">Est. Sync: {durationMinutes || 30} min</p>
+                <p className="text-[10px] font-black uppercase tracking-widest">Est. Time: {durationMinutes || 30} min</p>
               </div>
             </div>
           </div>
@@ -220,7 +220,7 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
           <CardHeader className="p-12 pb-6 border-b border-white/10 bg-white/[0.02]">
             <div className="flex items-center gap-4">
               <BookOpen className="w-6 h-6 text-blue-400" />
-              <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Lesson Core</CardTitle>
+              <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Lesson Content</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="p-12">
@@ -235,7 +235,7 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
             <div className="h-[2px] grow bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
             <div className="flex items-center gap-3 px-6 py-2 rounded-full border border-blue-500/20 bg-blue-500/10 backdrop-blur-sm">
               <Target className="w-5 h-5 text-blue-400" />
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">Knowledge Validation Required</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">Quiz Required</span>
             </div>
             <div className="h-[2px] grow bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
           </div>
@@ -244,8 +244,8 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
             <CardHeader className="p-12 bg-white/[0.03] border-b border-white/10">
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
-                  <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Trial Terminal</CardTitle>
-                  <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Verify knowledge absorption to synchronize ranking</CardDescription>
+                  <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Lesson Quiz</CardTitle>
+                  <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Complete the quiz to earn points and level up</CardDescription>
                 </div>
                 <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
                   <Activity className="w-7 h-7 text-blue-400" />
@@ -256,13 +256,13 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
               {loadingQuiz ? (
                 <div className="flex flex-col items-center gap-4 py-12">
                   <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
-                  <p className="text-[10px] font-black text-white/20 uppercase tracking-widest italic animate-pulse">Initializing Trial Database...</p>
+                  <p className="text-[10px] font-black text-white/20 uppercase tracking-widest italic animate-pulse">Initializing Quiz Data...</p>
                 </div>
               ) : !quiz ? (
                 <div className="text-center py-20 space-y-6">
                   <HelpCircle className="w-16 h-16 text-white/5 mx-auto" />
                   <p className="text-blue-100/30 text-xl font-black italic uppercase tracking-widest max-w-sm mx-auto">
-                    Trial not manifested. Synchronization pending instructor update.
+                    Quiz not available. Pending instructor update.
                   </p>
                 </div>
               ) : (
@@ -286,11 +286,11 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
                       {submitting ? (
                         <div className="flex items-center gap-3">
                           <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin" />
-                          SYNCHRONIZING...
+                          SUBMITTING...
                         </div>
                       ) : (
                         <div className="flex items-center gap-3">
-                          UPLOAD RESULTS & SYNC
+                          SUBMIT QUIZ
                           <Zap className="w-6 h-6 group-hover:animate-pulse" />
                         </div>
                       )}
@@ -303,7 +303,7 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
                         }`}>
                         {statusMessage.success ? <CheckCircle2 className="w-8 h-8 shrink-0" /> : <XCircle className="w-8 h-8 shrink-0" />}
                         <div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-1 opacity-50">Node Result Status</p>
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-1 opacity-50">Quiz Result Status</p>
                           <p className="text-lg font-black italic tracking-tight uppercase leading-none">{statusMessage.text}</p>
                         </div>
                       </div>

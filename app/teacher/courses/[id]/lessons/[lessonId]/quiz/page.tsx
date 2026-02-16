@@ -206,7 +206,7 @@ export default function LessonQuizEditorPage() {
             <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto" />
             <Terminal className="w-8 h-8 text-blue-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
           </div>
-          <p className="text-blue-200/80 font-black tracking-[0.3em] uppercase text-xs">Accessing Trial Databanks</p>
+          <p className="text-blue-200/80 font-black tracking-[0.3em] uppercase text-xs">Accessing Quiz Data</p>
         </div>
       </div>
     )
@@ -225,17 +225,17 @@ export default function LessonQuizEditorPage() {
         <div className="max-w-5xl mx-auto">
           <Link href={`/teacher/courses/${courseId}`} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-blue-400/60 hover:text-blue-400 transition-colors mb-8 group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Return to Realm Controller
+            Return to Course Manager
           </Link>
           <div className="space-y-4">
             <Badge variant="outline" className="rounded-full border-blue-500/20 text-blue-400 bg-blue-500/5 px-4 py-1 font-black tracking-widest uppercase text-[9px]">
-              Diagnostic Calibration
+              Quiz Configuration
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black tracking-tighter italic uppercase leading-none">
-              Configure <span className="text-blue-400">Knowledge Trial</span>
+              Configure <span className="text-blue-400">Lesson Quiz</span>
             </h1>
             <p className="text-blue-100/60 text-lg font-semibold tracking-tight max-w-2xl">
-              {hasExistingQuiz ? "Adjusting the neural assessment protocol for this node." : "Calibrating a new assessment terminal for scholar verification."}
+              {hasExistingQuiz ? "Adjusting the assessment protocol for this lesson." : "Calibrating a new assessment terminal for student verification."}
             </p>
           </div>
         </div>
@@ -246,8 +246,8 @@ export default function LessonQuizEditorPage() {
           <CardHeader className="p-12 border-b border-white/10 bg-white/[0.02]">
             <div className="flex justify-between items-center">
               <div className="space-y-1">
-                <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Trial Parameters</CardTitle>
-                <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Neural link verification settings</CardDescription>
+                <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Quiz Parameters</CardTitle>
+                <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Learning assessment settings</CardDescription>
               </div>
               <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 shadow-inner">
                 <BrainCircuit className="w-7 h-7 text-blue-400" />
@@ -261,7 +261,7 @@ export default function LessonQuizEditorPage() {
                   <div className="grid gap-3">
                     <Label htmlFor="title" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                       <ShieldCheck className="w-4 h-4" />
-                      Trial Designation
+                      Quiz Title
                     </Label>
                     <Input
                       id="title"
@@ -290,7 +290,7 @@ export default function LessonQuizEditorPage() {
                   <div className="grid gap-3">
                     <Label htmlFor="passingScore" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                       <Zap className="w-4 h-4" />
-                      Resonance Threshold (%)
+                      Passing Score (%)
                     </Label>
                     <Input
                       id="passingScore"
@@ -309,7 +309,7 @@ export default function LessonQuizEditorPage() {
                     <div className="flex items-center justify-between">
                       <Label htmlFor="csv" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                         <Database className="w-4 h-4" />
-                        Injection Matrix (CSV)
+                        Question Data (CSV)
                       </Label>
                       <div className="flex items-center gap-2">
                         <input
@@ -365,7 +365,7 @@ export default function LessonQuizEditorPage() {
                     />
                     <div className="p-6 bg-blue-500/5 border border-white/5 rounded-2xl space-y-3">
                       <p className="text-[10px] text-blue-100/40 font-black uppercase tracking-[0.1em] leading-relaxed">
-                        NOTICE: Saving will overwrite any existing trial matrix for this node.
+                        NOTICE: Saving will overwrite any existing quiz for this lesson.
                       </p>
                     </div>
                   </div>
@@ -393,7 +393,7 @@ export default function LessonQuizEditorPage() {
                   {saving ? "INITIALIZING DATA..." : (
                     <>
                       <ShieldCheck className="w-5 h-5" />
-                      Establish Trial Protocol
+                      Save Quiz
                     </>
                   )}
                 </Button>

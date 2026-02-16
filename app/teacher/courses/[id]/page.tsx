@@ -61,7 +61,7 @@ export default async function TeacherCoursePage({
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Badge variant="outline" className="rounded-full border-blue-500/20 text-blue-400 bg-blue-500/5 px-4 py-1 font-black tracking-widest uppercase text-[9px]">
-                  Realm Controller
+                  Course Manager
                 </Badge>
                 <Badge className={`rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-widest ${course.isPublished ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20" : "bg-orange-500/10 text-orange-400 border-orange-500/20"}`}>
                   {course.isPublished ? "ACTIVE STATUS" : "STAGING MODE"}
@@ -78,7 +78,7 @@ export default async function TeacherCoursePage({
               <Link href={`/teacher/courses/${id}/lessons/new`}>
                 <Button className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95 group">
                   <Plus className="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-500" />
-                  Forge Node
+                  Add Lesson
                 </Button>
               </Link>
             </div>
@@ -93,11 +93,11 @@ export default async function TeacherCoursePage({
             <TabsList className="bg-[#0a0b25]/90 backdrop-blur-2xl border border-white/10 p-1.5 rounded-[20px] h-14">
               <TabsTrigger value="lessons" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-10 h-full transition-all flex gap-2">
                 <Layers className="w-3.5 h-3.5" />
-                Knowledge Nodes ({lessons?.length || 0})
+                Lessons ({lessons?.length || 0})
               </TabsTrigger>
               <TabsTrigger value="students" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-10 h-full transition-all flex gap-2">
                 <Users className="w-3.5 h-3.5" />
-                Linked Scholars ({enrollments?.length || 0})
+                Linked Students ({enrollments?.length || 0})
               </TabsTrigger>
               <TabsTrigger value="settings" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-10 h-full transition-all flex gap-2">
                 <Settings className="w-3.5 h-3.5" />
@@ -111,8 +111,8 @@ export default async function TeacherCoursePage({
               <CardHeader className="p-12 border-b border-white/10 bg-white/[0.02]">
                 <div className="flex justify-between items-center">
                   <div className="space-y-1">
-                    <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Node Database</CardTitle>
-                    <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Managing training protocols for this realm</CardDescription>
+                    <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Lesson Database</CardTitle>
+                    <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Managing training protocols for this course</CardDescription>
                   </div>
                   <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
                     <BookOpen className="w-7 h-7 text-blue-400" />
@@ -145,7 +145,7 @@ export default async function TeacherCoursePage({
                         </div>
                         <Link href={`/teacher/courses/${id}/lessons/${lesson._id.toString()}/quiz`}>
                           <Button variant="outline" className="h-11 rounded-xl border-white/10 text-white/40 hover:text-blue-400 hover:border-blue-500/30 hover:bg-blue-500/5 font-black uppercase tracking-widest text-[9px] gap-2">
-                            Trial Editor
+                            Quiz Editor
                             <ArrowUpRight className="w-3.5 h-3.5" />
                           </Button>
                         </Link>
@@ -155,7 +155,7 @@ export default async function TeacherCoursePage({
                 ) : (
                   <div className="p-32 text-center text-blue-100/20 font-black italic uppercase tracking-[0.3em] flex flex-col items-center gap-6">
                     <ShieldCheck className="w-16 h-16 opacity-10" />
-                    Zero Nodes Manifested. Initiate synchronization protocol.
+                    Zero Lessons Created. Initiate course setup protocol.
                   </div>
                 )}
               </CardContent>
@@ -167,7 +167,7 @@ export default async function TeacherCoursePage({
               <CardHeader className="p-12 border-b border-white/10 bg-white/[0.02]">
                 <div className="flex justify-between items-center">
                   <div className="space-y-1">
-                    <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Scholar Registry</CardTitle>
+                    <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Student Registry</CardTitle>
                     <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Unauthorized links will be purged from the collective</CardDescription>
                   </div>
                   <div className="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center border border-blue-600/20">

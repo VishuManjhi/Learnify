@@ -56,7 +56,7 @@ export default function CoursesPage() {
             <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto" />
             <ShieldCheck className="w-8 h-8 text-blue-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
           </div>
-          <p className="text-blue-300/50 font-black tracking-[0.3em] uppercase text-xs">Scanning Knowledge Realms</p>
+          <p className="text-blue-300/50 font-black tracking-[0.3em] uppercase text-xs">Scanning Course Database</p>
         </div>
       </div>
     )
@@ -77,17 +77,17 @@ export default function CoursesPage() {
             Academy Database
           </Badge>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-            Browse Realms
+            Browse Courses
           </h1>
           <p className="text-blue-100/70 text-xl font-semibold tracking-tight max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-            Discover and synchronize with advanced training modules to expand your mastery.
+            Discover and enroll in advanced courses to expand your mastery.
           </p>
 
           <div className="max-w-2xl mx-auto pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
             <div className="relative group">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-400/40 group-focus-within:text-blue-400 transition-colors" />
               <Input
-                placeholder="Search Knowledge Realms..."
+                placeholder="Search Courses..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full h-16 pl-16 pr-8 bg-[#0a0b25]/80 backdrop-blur-2xl border-white/10 text-white placeholder:text-white/30 rounded-[24px] focus:border-blue-500/50 focus:ring-blue-500/20 transition-all text-lg font-bold"
@@ -104,7 +104,7 @@ export default function CoursesPage() {
             <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/5">
               <BookOpen className="w-10 h-10 text-white/10" />
             </div>
-            <p className="text-blue-200/30 text-2xl font-black italic uppercase tracking-tighter">No Realms Identified. Adjust Search Query.</p>
+            <p className="text-blue-200/30 text-2xl font-black italic uppercase tracking-tighter">No Courses Identified. Adjust Search Query.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

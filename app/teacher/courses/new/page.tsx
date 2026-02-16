@@ -71,10 +71,10 @@ export default function NewCoursePage() {
           </Link>
           <div className="space-y-4">
             <Badge variant="outline" className="rounded-full border-blue-500/20 text-blue-400 bg-blue-500/5 px-4 py-1 font-black tracking-widest uppercase text-[9px]">
-              Realm Initialization
+              Course Initialization
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black tracking-tighter italic uppercase leading-tight">
-              Forge New <span className="text-blue-400">Knowledge Realm</span>
+              Forge New <span className="text-blue-400">Knowledge Course</span>
             </h1>
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function NewCoursePage() {
           <CardHeader className="p-12 border-b border-white/10 bg-white/[0.02]">
             <div className="flex justify-between items-center">
               <div className="space-y-1">
-                <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Realm Parameters</CardTitle>
+                <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Course Parameters</CardTitle>
                 <CardDescription className="text-blue-100/60 font-black uppercase tracking-widest text-[10px]">Define the core configuration of your training module</CardDescription>
               </div>
               <div className="p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20">
@@ -100,7 +100,7 @@ export default function NewCoursePage() {
                 <div className="grid gap-3">
                   <Label htmlFor="title" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                     <BookOpen className="w-4 h-4" />
-                    Realm Title
+                    Course Title
                   </Label>
                   <Input
                     id="title"
@@ -199,7 +199,7 @@ export default function NewCoursePage() {
                 >
                   {loading ? "INITIALIZING..." : (
                     <div className="flex items-center gap-2">
-                      INITIALIZE REALM
+                      CREATE COURSE
                       <ArrowLeft className="w-5 h-5 rotate-180 group-hover:translate-x-1 transition-transform" />
                     </div>
                   )}

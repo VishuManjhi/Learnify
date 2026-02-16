@@ -47,7 +47,7 @@ export default function LeaderboardPage() {
             <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto" />
             <ShieldCheck className="w-8 h-8 text-blue-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
           </div>
-          <p className="text-blue-100/70 font-black tracking-[0.3em] uppercase text-xs">Synchronizing Global Rankings</p>
+          <p className="text-blue-100/70 font-black tracking-[0.3em] uppercase text-xs">Loading Global Rankings...</p>
         </div>
       </div>
     )
@@ -89,7 +89,7 @@ export default function LeaderboardPage() {
             Global Rankings
           </h1>
           <p className="text-blue-100/70 text-xl font-semibold tracking-tight max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-            Behold the elite scholars of the Nexus Academy. Your journey to the top begins here.
+            Behold the top students of the platform. Your journey to the top begins here.
           </p>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function LeaderboardPage() {
             <div className="flex justify-between items-center">
               <div className="space-y-1">
                 <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Top Learners</CardTitle>
-                <CardDescription className="text-blue-100/60 font-black uppercase tracking-widest text-[10px]">Ranked by total synchronization points</CardDescription>
+                <CardDescription className="text-blue-100/60 font-black uppercase tracking-widest text-[10px]">Ranked by total study points</CardDescription>
               </div>
               <div className="p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20">
                 <TrendingUp className="w-6 h-6 text-blue-400" />
@@ -121,12 +121,12 @@ export default function LeaderboardPage() {
                       {getRankIcon(entry.rank)}
                     </div>
                     <div>
-                      <p className="text-2xl font-black tracking-tight text-white uppercase italic group-hover:text-blue-400 transition-colors">{entry.userId?.name || "Neural Ghost"}</p>
+                      <p className="text-2xl font-black tracking-tight text-white uppercase italic group-hover:text-blue-400 transition-colors">{entry.userId?.name || "Anonymous Learner"}</p>
                       <div className="flex items-center gap-3 mt-1">
                         <Badge variant="outline" className="border-white/10 text-blue-100/60 text-[9px] font-black uppercase tracking-widest px-2 py-0">
                           Level {entry.currentLevel}
                         </Badge>
-                        <p className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em]">Sync Rank Achieved</p>
+                        <p className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em]">Rank Achieved</p>
                       </div>
                     </div>
                   </div>

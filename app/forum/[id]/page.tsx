@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -16,7 +16,7 @@ import {
   Reply,
   Eye,
   Clock,
-  CheckCircle2,
+  TrendingUp,
 } from "lucide-react"
 
 interface ForumPost {
@@ -59,7 +59,6 @@ interface ForumReply {
 
 export default function ForumPostPage() {
   const params = useParams()
-  const router = useRouter()
   const { data: session } = useSession()
   const postId = params?.id as string
 
@@ -105,7 +104,6 @@ export default function ForumPostPage() {
       })
 
       if (res.ok) {
-        const data = await res.json()
         // Refetch the post to get updated vote arrays
         const postRes = await fetch(`/api/forum/posts/${postId}`)
         if (postRes.ok) {
@@ -155,10 +153,10 @@ export default function ForumPostPage() {
 
   if (loading) {
     return (
-      <div className="min-h-svh bg-background flex items-center justify-center">
+      <div className="min-h-svh bg-[#030014] flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-muted-foreground">Loading discussion...</p>
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-blue-400 font-bold uppercase tracking-widest text-xs">Loading Discussion...</p>
         </div>
       </div>
     )
@@ -166,12 +164,14 @@ export default function ForumPostPage() {
 
   if (error && !post) {
     return (
-      <div className="min-h-svh bg-background flex items-center justify-center">
-        <Card className="max-w-md">
+      <div className="min-h-svh bg-[#030014] flex items-center justify-center">
+        <Card className="max-w-md bg-[#0a0b25]/80 backdrop-blur-xl border-white/10 rounded-[32px]">
           <CardContent className="py-12 text-center">
-            <p className="text-destructive mb-4">{error}</p>
+            <p className="text-rose-400 font-bold uppercase tracking-widest mb-6">{error}</p>
             <Link href="/forum">
-              <Button>Back to Forum</Button>
+              <Button className="bg-blue-600 hover:bg-blue-500 font-bold uppercase tracking-widest rounded-xl">
+                Return to Hub
+              </Button>
             </Link>
           </CardContent>
         </Card>
@@ -187,88 +187,98 @@ export default function ForumPostPage() {
     session && post.downvotes.some((v) => v.toString() === (session.user as any).id)
 
   return (
-    <div className="min-h-svh bg-background">
+    <div className="min-h-svh bg-[#030014] relative overflow-hidden pb-20">
+      {/* Background Ambient Glows */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[120px] -z-10" />
+
       {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="relative z-10 border-b border-white/10 bg-white/[0.02] backdrop-blur-3xl py-8 px-4 shadow-2xl">
+        <div className="max-w-4xl mx-auto">
           <Link
             href="/forum"
-            className="text-sm text-muted-foreground hover:text-foreground mb-4 block flex items-center gap-2"
+            className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-blue-400 hover:text-blue-300 transition-colors mb-6 group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to Forum
           </Link>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-        {/* Post */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-start justify-between gap-4">
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-12 relative z-10">
+        {/* Post Discussion */}
+        <Card className="bg-[#0b0c2e] backdrop-blur-xl border-white/20 rounded-[40px] overflow-hidden shadow-2xl">
+          <CardHeader className="p-10 pb-6">
+            <div className="flex items-start justify-between gap-8">
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-3 mb-4">
                   {post.isPinned && (
-                    <Badge variant="default" className="text-xs">
-                      Pinned
+                    <Badge className="bg-blue-600 font-black text-[9px] uppercase tracking-[0.2em] px-3 py-1 border-none rounded-md">
+                      Pinned Discussion
                     </Badge>
                   )}
                   {post.courseId && (
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="border-blue-400/40 text-blue-200 bg-blue-500/10 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded-md">
                       {post.courseId.title}
                     </Badge>
                   )}
                 </div>
-                <CardTitle className="text-2xl mb-2">{post.title}</CardTitle>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span>By {post.authorId.name}</span>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                <CardTitle className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-blue-300">
+                  {post.title}
+                </CardTitle>
+                <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.15em] text-blue-200/60 mt-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                      <TrendingUp className="w-3 h-3 text-blue-400" />
+                    </div>
+                    <span className="text-blue-100/50">{post.authorId.name}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Eye className="w-3 h-3" />
-                    <span>{post.views} views</span>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-blue-400" />
+                    <span>Posted: {new Date(post.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-4 h-4 text-blue-400" />
+                    <span>{post.views} Views</span>
                   </div>
                 </div>
               </div>
 
-              {/* Votes */}
-              <div className="flex flex-col items-center gap-1">
+              {/* Vote Controller */}
+              <div className="flex flex-col items-center gap-2 min-w-[70px] p-2 rounded-[24px] bg-white/10 border border-white/10 h-fit shadow-xl">
                 <button
                   onClick={() => handleVote("upvote")}
-                  className={`p-1 rounded hover:bg-muted transition-colors ${
-                    userVotedUp ? "text-primary" : ""
-                  }`}
+                  className={`p-2 rounded-xl hover:bg-blue-500/20 transition-all ${userVotedUp ? "text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-blue-500/10" : "text-white/20"
+                    }`}
                   disabled={!session}
                 >
-                  <ArrowUp className="w-5 h-5" />
+                  <ArrowUp className="w-6 h-6" />
                 </button>
-                <span className="font-semibold text-lg">{netVotes}</span>
+                <span className="font-black italic text-2xl tracking-tighter text-white py-1">{netVotes}</span>
                 <button
                   onClick={() => handleVote("downvote")}
-                  className={`p-1 rounded hover:bg-muted transition-colors ${
-                    userVotedDown ? "text-destructive" : ""
-                  }`}
+                  className={`p-2 rounded-xl hover:bg-rose-500/20 transition-all ${userVotedDown ? "text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.5)] bg-rose-500/10" : "text-white/20"
+                    }`}
                   disabled={!session}
                 >
-                  <ArrowDown className="w-5 h-5" />
+                  <ArrowDown className="w-6 h-6" />
                 </button>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="prose prose-invert max-w-none">
+          <CardContent className="p-10 pt-0 space-y-8">
+            <div className="h-px bg-white/10 w-full" />
+            <div className="prose prose-invert max-w-none prose-p:text-blue-100/90 prose-p:font-semibold prose-p:text-lg prose-p:leading-relaxed">
               <p className="whitespace-pre-wrap">{post.content}</p>
             </div>
 
-            {/* Tags */}
+            {/* Discussion Tags */}
             {post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-4 border-t">
+              <div className="flex flex-wrap gap-2 pt-8 border-t border-white/10">
                 {post.tags.map((tag, idx) => (
-                  <Badge key={idx} variant="secondary">
-                    {tag}
+                  <Badge key={idx} className="bg-white/10 border-white/20 text-blue-100 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 hover:bg-blue-500/20 hover:text-blue-200 transition-colors cursor-default">
+                    #{tag}
                   </Badge>
                 ))}
               </div>
@@ -276,83 +286,99 @@ export default function ForumPostPage() {
           </CardContent>
         </Card>
 
-        {/* Replies */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-              <MessageSquare className="w-5 h-5" />
-              {replies.length} {replies.length === 1 ? "Reply" : "Replies"}
+        {/* Replies Feed */}
+        <div className="space-y-8">
+          <div className="flex items-center gap-4">
+            <h2 className="text-xs font-black italic tracking-[0.3em] uppercase text-blue-400/80 flex items-center gap-4 w-full">
+              <MessageSquare className="w-4 h-4" />
+              Discussion Thread ({replies.length})
+              <div className="h-px bg-blue-500/20 flex-1" />
             </h2>
           </div>
 
           {replies.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <MessageSquare className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No replies yet. Be the first to reply!</p>
-              </CardContent>
+            <Card className="rounded-[40px] border-2 border-dashed border-white/10 bg-white/[0.02] p-16 text-center">
+              <MessageSquare className="w-16 h-16 text-blue-400/20 mx-auto mb-6" />
+              <p className="text-blue-200/40 font-bold uppercase tracking-widest text-sm">Waiting for replies...</p>
             </Card>
           ) : (
-            replies.map((reply) => (
-              <Card key={reply._id} className={reply.isSolution ? "border-primary" : ""}>
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="font-semibold">{reply.authorId.name}</span>
-                        {reply.isSolution && (
-                          <Badge variant="default" className="gap-1">
-                            <CheckCircle2 className="w-3 h-3" />
-                            Solution
-                          </Badge>
-                        )}
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(reply.createdAt).toLocaleDateString()}
-                        </span>
+            <div className="space-y-6">
+              {replies.map((reply) => (
+                <Card key={reply._id} className={`bg-[#0a0b25] backdrop-blur-md border border-white/20 rounded-[32px] overflow-hidden transition-all duration-500 hover:border-blue-500/40 ${reply.isSolution ? "border-blue-500/60 shadow-[0_0_30px_-10px_rgba(59,130,246,0.5)] bg-blue-700/[0.05]" : ""}`}>
+                  <CardContent className="p-8">
+                    <div className="flex items-start gap-6">
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center font-black text-[10px] text-blue-300">
+                              {reply.authorId.name.charAt(0)}
+                            </div>
+                            <span className="font-black italic text-sm uppercase tracking-tight text-white">{reply.authorId.name}</span>
+                            {reply.isSolution && (
+                              <Badge className="bg-blue-500 font-black text-[9px] uppercase tracking-[0.2em] px-2.5 py-1 border-none rounded-md text-white shadow-[0_0_15px_rgba(59,130,246,0.5)] animate-pulse">
+                                Verified Sync
+                              </Badge>
+                            )}
+                          </div>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-blue-200/30">
+                            Sync: {new Date(reply.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <p className="text-blue-100/80 font-semibold text-base leading-relaxed whitespace-pre-wrap">
+                          {reply.content}
+                        </p>
                       </div>
-                      <p className="whitespace-pre-wrap">{reply.content}</p>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
 
         {/* Reply Form */}
         {session ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Post a Reply</CardTitle>
+          <Card className="bg-[#0b0c2e] backdrop-blur-xl border border-blue-500/40 rounded-[40px] overflow-hidden shadow-2xl relative">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600" />
+            <CardHeader className="p-10 pb-4">
+              <CardTitle className="text-2xl font-black italic tracking-tighter uppercase flex items-center gap-3">
+                <Reply className="w-6 h-6 text-blue-500" />
+                Post your Reply
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleReply} className="space-y-4">
+            <CardContent className="p-10 pt-0">
+              <form onSubmit={handleReply} className="space-y-6">
                 <Textarea
-                  placeholder="Write your reply..."
+                  placeholder="Write your reply here..."
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   rows={6}
                   required
+                  className="bg-black/40 border-white/20 rounded-2xl p-6 text-white placeholder:text-blue-200/20 focus:border-blue-400/50 transition-all font-semibold resize-none text-lg"
                 />
                 {error && (
-                  <div className="p-3 bg-destructive/10 text-destructive text-sm rounded">
-                    {error}
+                  <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-black uppercase tracking-widest rounded-xl">
+                    Injection Error: {error}
                   </div>
                 )}
-                <Button type="submit" disabled={submitting || !replyContent.trim()}>
-                  {submitting ? "Posting..." : "Post Reply"}
+                <Button
+                  type="submit"
+                  disabled={submitting || !replyContent.trim()}
+                  className="h-14 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 font-black uppercase tracking-widest transition-all hover:scale-105 shadow-xl shadow-blue-600/30 text-white"
+                >
+                  {submitting ? "Posting Reply..." : "Post Reply"}
                 </Button>
               </form>
             </CardContent>
           </Card>
         ) : (
-          <Card>
-            <CardContent className="py-8 text-center">
-              <p className="text-muted-foreground mb-4">Please log in to reply</p>
-              <Link href="/auth/login">
-                <Button>Log In</Button>
-              </Link>
-            </CardContent>
+          <Card className="bg-[#0b0c2e] backdrop-blur-xl border border-white/20 rounded-[40px] p-12 text-center">
+            <p className="text-blue-100/60 font-black uppercase tracking-widest text-sm mb-6">Please log in to participate in the discussion</p>
+            <Link href="/auth/login">
+              <Button className="h-14 px-12 rounded-2xl bg-blue-600 hover:bg-blue-500 font-black uppercase tracking-widest transition-all hover:scale-105 shadow-xl shadow-blue-600/20">
+                Establish Link (Login)
+              </Button>
+            </Link>
           </Card>
         )}
       </div>

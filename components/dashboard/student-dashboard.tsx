@@ -130,7 +130,7 @@ export function StudentDashboard() {
               <div className="flex items-center gap-3">
                 <Badge variant="outline" className="px-4 py-1.5 bg-blue-500/10 text-blue-400 border-blue-500/20 rounded-full font-black tracking-widest text-[10px] uppercase">
                   <Star className="w-3 h-3 mr-2 fill-blue-400" />
-                  Elite Scholar Rank
+                  Elite Student Rank
                 </Badge>
               </div>
               <div className="space-y-1">
@@ -141,7 +141,7 @@ export function StudentDashboard() {
                   </span>
                 </h1>
                 <p className="text-blue-100/70 text-lg font-semibold tracking-tight">
-                  Your journey through the academy continues. <span className="text-blue-400">Mastery is within reach.</span>
+                  Your journey through the platform continues. <span className="text-blue-400">Mastery is within reach.</span>
                 </p>
               </div>
             </div>
@@ -174,7 +174,7 @@ export function StudentDashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 mb-12">
           <NexusStatCard
-            title="Nexus Points"
+            title="Mastery Points"
             value={stats?.totalPoints || 0}
             icon={<Zap className="w-6 h-6" />}
             color="blue"
@@ -186,19 +186,19 @@ export function StudentDashboard() {
             color="indigo"
           />
           <NexusStatCard
-            title="Modules Cleared"
+            title="Lessons Completed"
             value={stats?.lessonsCompleted || 0}
             icon={<BookOpen className="w-6 h-6" />}
             color="cyan"
           />
           <NexusStatCard
-            title="Trials Won"
+            title="Quizzes Passed"
             value={stats?.quizzesCompleted || 0}
             icon={<Target className="w-6 h-6" />}
             color="purple"
           />
           <NexusStatCard
-            title="Active Realms"
+            title="Active Courses"
             value={stats?.coursesEnrolled || 0}
             icon={<Flame className="w-6 h-6" />}
             color="rose"
@@ -209,15 +209,18 @@ export function StudentDashboard() {
         {/* Workspace Hub */}
         <Tabs defaultValue="courses" className="space-y-10">
           <div className="flex items-center justify-between bg-[#0a0b25]/90 backdrop-blur-xl p-1.5 rounded-[24px] border border-blue-500/20 shadow-2xl sticky top-4 z-40">
-            <TabsList className="bg-transparent h-12 w-full md:w-auto grid grid-cols-3 md:flex gap-1.5">
+            <TabsList className="bg-transparent h-12 w-full md:w-auto grid grid-cols-4 md:flex gap-1.5">
               <TabsTrigger value="courses" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-8 transition-all">
-                Realms
+                Courses
               </TabsTrigger>
               <TabsTrigger value="quizzes" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-8 transition-all">
-                Trials
+                Quizzes
               </TabsTrigger>
               <TabsTrigger value="leaderboard" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-8 transition-all">
                 Rankings
+              </TabsTrigger>
+              <TabsTrigger asChild value="forum" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white font-black uppercase text-[10px] tracking-widest px-8 transition-all">
+                <Link href="/forum">Hub</Link>
               </TabsTrigger>
             </TabsList>
 
@@ -225,7 +228,7 @@ export function StudentDashboard() {
               <Link href="/courses">
                 <Button variant="outline" className="rounded-xl border-blue-500/10 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/30 text-blue-400 font-bold text-xs uppercase tracking-widest gap-2">
                   <Search className="w-4 h-4" />
-                  Scan New Knowledge
+                  Browse Courses
                 </Button>
               </Link>
             </div>
@@ -240,7 +243,7 @@ export function StudentDashboard() {
                   </div>
                   <h3 className="text-3xl font-black italic tracking-tighter uppercase">No Active Adventures</h3>
                   <p className="text-blue-100/70 max-w-sm mx-auto font-semibold">
-                    The nexus is waiting for you to download your first course module.
+                    The nexus is waiting for you to enroll in your first course.
                   </p>
                   <Link href="/courses">
                     <Button size="lg" className="rounded-2xl px-12 h-14 bg-blue-600 hover:bg-blue-500 font-black uppercase tracking-widest transition-all hover:scale-105 shadow-xl shadow-blue-600/20">
@@ -305,11 +308,11 @@ export function StudentDashboard() {
                     <Award className="w-10 h-10 text-blue-400" />
                   </div>
                   <div className="space-y-1">
-                    <CardTitle className="text-4xl font-black italic uppercase tracking-tighter text-white">Trial Nexus</CardTitle>
+                    <CardTitle className="text-4xl font-black italic uppercase tracking-tighter text-white">Quiz Center</CardTitle>
                     <CardDescription className="text-lg font-semibold text-blue-100/60 tracking-tight">
                       {quizzes.length === 0
                         ? "Scan results negative. No challenges detected."
-                        : `IDENTIFIED: ${quizzes.length} Knowledge Trials across your synchronized realms`}
+                        : `IDENTIFIED: ${quizzes.length} Quizzes across your enrolled courses`}
                     </CardDescription>
                   </div>
                 </div>
@@ -317,7 +320,7 @@ export function StudentDashboard() {
               <CardContent className="p-0">
                 {quizzes.length === 0 ? (
                   <div className="p-24 text-center text-blue-200/20 font-black italic uppercase tracking-[0.2em]">
-                    Pending Trial Manifestation...
+                    Waiting for Quiz Data...
                   </div>
                 ) : (
                   <div className="divide-y divide-white/10 border-t border-white/10">
@@ -340,7 +343,7 @@ export function StudentDashboard() {
                             {quiz.attempted ? (
                               <>
                                 <div className="flex items-center gap-2 mb-2">
-                                  <span className="text-[10px] font-black uppercase text-white/10 tracking-[0.2em]">Mastery Level</span>
+                                  <span className="text-[10px] font-black uppercase text-white/10 tracking-[0.2em]">Score</span>
                                   <span className={`text-xl font-black italic ${quiz.passed ? "text-cyan-400" : "text-rose-500"}`}>
                                     {quiz.lastPercentage !== null ? `${quiz.lastPercentage.toFixed(0)}%` : "-"}
                                   </span>
@@ -351,7 +354,7 @@ export function StudentDashboard() {
                               </>
                             ) : (
                               <Badge className="bg-blue-600/10 text-blue-400 border-blue-500/20 rounded-full shadow-lg text-[9px] font-black uppercase tracking-widest px-4 py-1 animate-pulse">
-                                Unchallenged
+                                Not Started
                               </Badge>
                             )}
                           </div>
@@ -380,7 +383,7 @@ export function StudentDashboard() {
                 <div className="space-y-4">
                   <h3 className="text-5xl font-black italic uppercase tracking-tighter text-white">Global Ranking</h3>
                   <p className="text-blue-100/60 text-xl font-semibold max-w-md mx-auto tracking-tight">
-                    Measure your intelligence against the top-tier scholars of the Nexus.
+                    Measure your intelligence against the top-tier students of the network.
                   </p>
                 </div>
                 <Link href="/leaderboard">

@@ -92,17 +92,17 @@ export default function NewLessonPage() {
         <div className="max-w-5xl mx-auto">
           <Link href={`/teacher/courses/${courseId}`} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-blue-400/60 hover:text-blue-400 transition-colors mb-8 group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Return to Realm Controller
+            Return to Course Manager
           </Link>
           <div className="space-y-4">
             <Badge variant="outline" className="rounded-full border-blue-500/20 text-blue-400 bg-blue-500/5 px-4 py-1 font-black tracking-widest uppercase text-[9px]">
-              Protocol Manifestation
+              Lesson Creation
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black tracking-tighter italic uppercase leading-none">
-              Manifest <span className="text-blue-400">Knowledge Node</span>
+              Create <span className="text-blue-400">New Lesson</span>
             </h1>
             <p className="text-blue-100/60 text-lg font-semibold tracking-tight max-w-2xl">
-              Initialize a new neural anchor for this realm. Define the synchronization parameters for your scholars.
+              Initialize a new step for this course. Define the synchronization parameters for your students.
             </p>
           </div>
         </div>
@@ -114,8 +114,8 @@ export default function NewLessonPage() {
           <CardHeader className="p-12 border-b border-white/10 bg-white/[0.02]">
             <div className="flex justify-between items-center">
               <div className="space-y-1">
-                <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Node Identity</CardTitle>
-                <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Neural resonance settings</CardDescription>
+                <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white">Lesson Identity</CardTitle>
+                <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Lesson settings</CardDescription>
               </div>
               <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 shadow-inner">
                 <Zap className="w-7 h-7 text-blue-400" />
@@ -128,7 +128,7 @@ export default function NewLessonPage() {
                 <div className="grid gap-3">
                   <Label htmlFor="title" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                     <BookOpen className="w-4 h-4" />
-                    Node Title
+                    Lesson Title
                   </Label>
                   <Input
                     id="title"
@@ -158,7 +158,7 @@ export default function NewLessonPage() {
                   <div className="grid gap-3">
                     <Label htmlFor="order" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                       <ListOrdered className="w-4 h-4" />
-                      Nexus Position
+                      Lesson Order
                     </Label>
                     <Input
                       id="order"
@@ -174,7 +174,7 @@ export default function NewLessonPage() {
                 <div className="grid gap-3">
                   <Label htmlFor="content" className="text-blue-100/90 font-black text-xs uppercase tracking-widest flex items-center gap-2">
                     <Share2 className="w-4 h-4" />
-                    Neural Data / Transmissions
+                    Lesson Content / Resources
                   </Label>
                   <Textarea
                     id="content"
@@ -203,7 +203,7 @@ export default function NewLessonPage() {
                 >
                   {loading ? "MANIFESTING..." : (
                     <div className="flex items-center gap-2">
-                      MANIFEST NODE
+                      CREATE LESSON
                       <ArrowLeft className="w-5 h-5 rotate-180 group-hover:translate-x-1 transition-transform" />
                     </div>
                   )}

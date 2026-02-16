@@ -103,7 +103,7 @@ export function TeacherDashboard({ userId }: { userId: string }) {
             <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto" />
             <ShieldCheck className="w-8 h-8 text-blue-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
           </div>
-          <p className="text-blue-200/80 font-black tracking-[0.3em] uppercase text-xs">Synchronizing Command Nexus</p>
+          <p className="text-blue-200/80 font-black tracking-[0.3em] uppercase text-xs">Synchronizing Management Console</p>
         </div>
       </div>
     )
@@ -129,18 +129,18 @@ export function TeacherDashboard({ userId }: { userId: string }) {
               <div className="flex items-center gap-3">
                 <Badge variant="outline" className="px-4 py-1.5 bg-blue-500/10 text-blue-400 border-blue-500/20 rounded-full font-black tracking-widest text-[10px] uppercase">
                   <ShieldCheck className="w-3 h-3 mr-2 fill-blue-400" />
-                  Nexus Command Authority
+                  Teacher Management Authority
                 </Badge>
               </div>
               <div className="space-y-1">
                 <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none">
-                  COMMAND NEXUS:{" "}
+                  TEACHER DASHBOARD:{" "}
                   <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
                     {session?.user?.name?.toUpperCase() || "INSTRUCTOR"}
                   </span>
                 </h1>
                 <p className="text-blue-100/70 text-lg font-semibold tracking-tight">
-                  Monitoring global synchronization. <span className="text-blue-400">The collective awaits your guidance.</span>
+                  Monitoring student progress. <span className="text-blue-400">The platform awaits your guidance.</span>
                 </p>
               </div>
             </div>
@@ -152,12 +152,12 @@ export function TeacherDashboard({ userId }: { userId: string }) {
               </div>
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <p className="text-[10px] text-blue-300/50 font-black uppercase tracking-[0.2em] mb-1">Nexus Capacity</p>
+                  <p className="text-[10px] text-blue-300/50 font-black uppercase tracking-[0.2em] mb-1">Teaching Capacity</p>
                   <p className="text-3xl font-black italic tracking-tighter text-white">RANK S-CLASS</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] text-blue-300/50 font-black uppercase tracking-[0.2em] mb-1">Influence</p>
-                  <p className="text-sm font-black text-blue-400">{stats?.totalEnrollments || 0} <span className="text-[10px] text-white/40 ml-1">Nodes</span></p>
+                  <p className="text-sm font-black text-blue-400">{stats?.totalEnrollments || 0} <span className="text-[10px] text-white/40 ml-1">Lessons</span></p>
                 </div>
               </div>
               <div className="relative">
@@ -174,30 +174,30 @@ export function TeacherDashboard({ userId }: { userId: string }) {
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             <NexusTeacherCard
-              label="Active Realms"
+              label="Active Courses"
               value={stats.totalCourses}
               subValue={`${stats.publishedCourses} LIVE / ${stats.draftCourses} DRAFT`}
               icon={<BookOpen className="w-7 h-7" />}
               color="blue"
             />
             <NexusTeacherCard
-              label="Scholar Population"
+              label="Student Population"
               value={stats.totalStudents}
               subValue={`${stats.totalEnrollments} total enrollments`}
               icon={<Users className="w-7 h-7" />}
               color="cyan"
             />
             <NexusTeacherCard
-              label="Knowledge Units"
+              label="Lessons Created"
               value={stats.totalLessons}
-              subValue={`Across ${stats.totalCourses} course realms`}
+              subValue={`Across ${stats.totalCourses} courses`}
               icon={<Layers className="w-7 h-7" />}
               color="purple"
             />
             <NexusTeacherCard
               label="Efficiency Score"
               value={`${publishedPercentage}%`}
-              subValue="Realm readiness index"
+              subValue="Course readiness index"
               icon={<TrendingUp className="w-7 h-7" />}
               color="rose"
               progress={publishedPercentage}
@@ -208,22 +208,25 @@ export function TeacherDashboard({ userId }: { userId: string }) {
         {/* Workspace Management */}
         <Tabs defaultValue="courses" className="space-y-12">
           <div className="flex items-center justify-between bg-[#0a0b25]/90 backdrop-blur-2xl border border-blue-500/20 rounded-[28px] p-2 shadow-3xl sticky top-4 z-40">
-            <TabsList className="bg-transparent h-14 w-full md:w-auto grid grid-cols-3 md:flex gap-1.5">
+            <TabsList className="bg-transparent h-14 w-full md:w-auto grid grid-cols-4 md:flex gap-1.5">
               <TabsTrigger value="courses" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white px-10 font-black uppercase tracking-widest text-[10px] transition-all">
-                Realms
+                Courses
               </TabsTrigger>
               <TabsTrigger value="students" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white px-10 font-black uppercase tracking-widest text-[10px] transition-all">
-                Scholars
+                Students
               </TabsTrigger>
               <TabsTrigger value="analytics" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white px-10 font-black uppercase tracking-widest text-[10px] transition-all">
-                Intelligence
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger asChild value="forum" className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white px-10 font-black uppercase tracking-widest text-[10px] transition-all">
+                <Link href="/forum">Feed</Link>
               </TabsTrigger>
             </TabsList>
             <div className="hidden md:flex gap-2 pr-2">
               <Link href="/teacher/courses/new">
                 <Button variant="outline" className="rounded-xl border-blue-500/10 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/30 text-blue-400 font-bold text-xs uppercase tracking-widest gap-2">
                   <Plus className="w-4 h-4" />
-                  Forge New Realm
+                  Create New Course
                 </Button>
               </Link>
             </div>
@@ -233,7 +236,7 @@ export function TeacherDashboard({ userId }: { userId: string }) {
             <div className="flex items-center justify-between mb-8">
               <h3 className="text-3xl font-black italic tracking-tighter uppercase flex items-center gap-4">
                 <GraduationCap className="w-8 h-8 text-blue-500" />
-                Active Core Training
+                My Courses
               </h3>
               <Badge variant="outline" className="px-5 py-1.5 font-black text-[10px] uppercase tracking-widest border-blue-500/30 text-blue-300 bg-blue-500/5">{courses.length} Identified</Badge>
             </div>
@@ -245,7 +248,7 @@ export function TeacherDashboard({ userId }: { userId: string }) {
                     <BookOpen className="w-14 h-14 text-blue-500/20" />
                   </div>
                   <div className="space-y-3">
-                    <h4 className="text-4xl font-black italic tracking-tighter uppercase">Nexus database is empty</h4>
+                    <h4 className="text-4xl font-black italic tracking-tighter uppercase">Course database is empty</h4>
                     <p className="text-blue-100/70 max-w-sm mx-auto font-semibold text-lg leading-relaxed">
                       Initialize your teaching core by crafting your first specialized course module.
                     </p>
@@ -304,8 +307,8 @@ export function TeacherDashboard({ userId }: { userId: string }) {
             <Card className="rounded-[40px] border border-white/10 shadow-3xl overflow-hidden bg-[#0a0b25]/60 backdrop-blur-xl">
               <CardHeader className="bg-blue-600/[0.05] border-b border-white/10 p-12 flex flex-row items-center justify-between">
                 <div className="space-y-1">
-                  <CardTitle className="text-4xl font-black italic uppercase tracking-tighter text-white">Registry Central</CardTitle>
-                  <CardDescription className="text-lg font-semibold text-blue-100/60 tracking-tight">Managing synchronized scholar population for your training modules.</CardDescription>
+                  <CardTitle className="text-4xl font-black italic uppercase tracking-tighter text-white">Student Registry</CardTitle>
+                  <CardDescription className="text-lg font-semibold text-blue-100/60 tracking-tight">Managing enrolled students for your courses.</CardDescription>
                 </div>
                 <div className="bg-blue-600/10 px-8 py-4 rounded-[20px] border border-blue-600/20 shadow-inner">
                   <span className="text-lg font-black text-blue-400 uppercase tracking-[0.2em]">{students.length} Total</span>
@@ -358,14 +361,14 @@ export function TeacherDashboard({ userId }: { userId: string }) {
                 <CardHeader className="p-12 border-b border-white/10">
                   <CardTitle className="text-3xl font-black italic uppercase tracking-tighter text-white flex items-center gap-4">
                     <BarChart3 className="w-8 h-8 text-blue-400" />
-                    Nexus Diagnostics
+                    Course Analytics
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-12 space-y-12">
                   <div className="space-y-6">
                     <div className="flex justify-between items-end">
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-100/60 mb-2">Optimization Hub</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-100/60 mb-2">Publishing Progress</p>
                         <p className="text-4xl font-black italic tracking-tighter text-white">{publishedPercentage}% <span className="text-sm font-semibold text-blue-100/40 not-italic tracking-normal uppercase ml-2">Synced</span></p>
                       </div>
                       <Badge className="bg-cyan-500/10 text-cyan-400 font-extrabold tracking-widest px-4 py-1.5 rounded-full border border-cyan-500/20 uppercase text-[9px]">+12% GROWTH</Badge>
@@ -379,7 +382,7 @@ export function TeacherDashboard({ userId }: { userId: string }) {
                   <div className="space-y-6">
                     <div className="flex justify-between items-end">
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-100/60 mb-2">Interaction Density</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-100/60 mb-2">Enrollment Count</p>
                         <p className="text-4xl font-black italic tracking-tighter text-white">{stats?.totalEnrollments || 0} <span className="text-sm font-semibold text-blue-100/40 not-italic tracking-normal uppercase ml-2">Requests</span></p>
                       </div>
                       <Badge className="bg-blue-500/10 text-blue-400 font-extrabold tracking-widest px-4 py-1.5 rounded-full border border-blue-500/20 uppercase text-[9px]">Stable Link</Badge>
@@ -400,7 +403,7 @@ export function TeacherDashboard({ userId }: { userId: string }) {
                       <Cpu className="w-12 h-12 text-blue-500" />
                     </div>
                     <div className="space-y-4 mt-8">
-                      <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">Advanced AI Oversight</h3>
+                      <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">Advanced Analytics</h3>
                       <p className="text-blue-100/60 font-semibold max-w-xs mx-auto text-lg leading-relaxed tracking-tight">
                         Predictive student modeling and real-time heatmap synthesis coming online soon.
                       </p>
