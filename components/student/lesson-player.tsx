@@ -1,9 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
+import {
+  BookOpen,
+  Target,
+  Zap,
+  Activity,
+  CheckCircle2,
+  XCircle,
+  HelpCircle,
+  Clock,
+  ArrowLeft
+} from "lucide-react"
+import Link from "next/link"
 
 interface LessonPlayerProps {
   courseId: string
@@ -33,7 +46,7 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [loadingQuiz, setLoadingQuiz] = useState(true)
   const [submitting, setSubmitting] = useState(false)
-  const [statusMessage, setStatusMessage] = useState<string | null>(null)
+  const [statusMessage, setStatusMessage] = useState<{ text: string; success: boolean } | null>(null)
 
   useEffect(() => {
     const loadQuiz = async () => {
@@ -42,7 +55,7 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
         const res = await fetch(`/api/quizzes?lesson_id=${lessonId}`)
         if (res.ok) {
           const data = await res.json()
-          setQuiz(data[0] ?? null) // assume at most one quiz per lesson
+          setQuiz(data[0] ?? null)
         } else {
           setQuiz(null)
         }
@@ -75,124 +88,232 @@ export function LessonPlayer({ courseId, lessonId, title, content, durationMinut
 
       const result = await res.json()
       if (!res.ok) {
-        setStatusMessage(result.error || "Failed to submit quiz")
+        setStatusMessage({ text: result.error || "Failed to submit quiz", success: false })
         setSubmitting(false)
         return
       }
 
       if (result.passed) {
-        // Mark lesson complete and award points
         const progressRes = await fetch(`/api/lessons/${lessonId}/progress`, {
           method: "POST",
         })
 
         if (progressRes.ok) {
-          setStatusMessage("✅ Quiz passed! Lesson completed and points awarded.")
+          setStatusMessage({ text: "✅ TRANSFERENCE COMPLETE: Mastery recognized. Points awarded.", success: true })
         } else {
-          setStatusMessage("Quiz passed, but failed to mark lesson complete.")
+          setStatusMessage({ text: "Quiz passed, but failed to synchronize progress.", success: false })
         }
       } else {
-        setStatusMessage("❌ Quiz not passed. Review the lesson and try again.")
+        setStatusMessage({ text: "❌ SYNCHRONIZATION FAILURE: Knowledge retention below threshold. Review required.", success: false })
       }
     } catch (error) {
-      setStatusMessage("An error occurred while submitting the quiz.")
+      setStatusMessage({ text: "Critical error during submission.", success: false })
     } finally {
       setSubmitting(false)
     }
   }
 
-  const renderQuestion = (question: QuizQuestion) => {
+  const renderQuestion = (question: QuizQuestion, index: number) => {
+    const isAnswered = !!answers[question._id];
+
     if (question.questionType === "multiple_choice" || question.questionType === "true_false") {
       return (
-        <div className="space-y-2" key={question._id}>
-          <p className="font-medium">{question.questionText}</p>
-          <div className="space-y-1">
-            {question.options?.map((opt) => (
-              <label key={opt._id} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name={question._id}
-                  value={opt._id}
-                  checked={answers[question._id] === opt._id}
-                  onChange={(e) => handleOptionChange(question._id, e.target.value)}
-                />
-                <span>{opt.text}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+        <Card key={question._id} className="bg-white/[0.04] border-white/10 rounded-3xl overflow-hidden group hover:border-blue-500/30 transition-all">
+          <CardHeader className="p-8 pb-4">
+            <div className="flex items-center gap-4">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black italic border transition-all ${isAnswered ? "bg-blue-600 border-blue-400 text-white" : "bg-white/5 border-white/10 text-white/40"}`}>
+                {index + 1}
+              </div>
+              <p className="text-xl font-black italic uppercase tracking-tight text-white">{question.questionText}</p>
+            </div>
+          </CardHeader>
+          <CardContent className="px-8 pb-8 space-y-3">
+            {question.options?.map((opt) => {
+              const checked = answers[question._id] === opt._id;
+              return (
+                <label
+                  key={opt._id}
+                  className={`flex items-center gap-4 p-5 rounded-2xl border cursor-pointer transition-all duration-300 ${checked
+                    ? "bg-blue-600/20 border-blue-500 text-white shadow-[0_0_20px_-10px_rgba(59,130,246,0.5)]"
+                    : "bg-white/[0.03] border-white/10 text-blue-100/40 hover:bg-white/[0.06] hover:border-white/20"
+                    }`}
+                >
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${checked ? "border-blue-400 bg-blue-400" : "border-white/10"}`}>
+                    {checked && <div className="w-2 h-2 rounded-full bg-white animate-pulse" />}
+                  </div>
+                  <input
+                    type="radio"
+                    className="hidden"
+                    name={question._id}
+                    value={opt._id}
+                    checked={checked}
+                    onChange={(e) => handleOptionChange(question._id, e.target.value)}
+                  />
+                  <span className="font-bold uppercase tracking-wide text-sm">{opt.text}</span>
+                </label>
+              );
+            })}
+          </CardContent>
+        </Card>
       )
     }
 
-    // basic short-answer handling
     return (
-      <div className="space-y-2" key={question._id}>
-        <p className="font-medium">{question.questionText}</p>
-        <Textarea
-          value={answers[question._id] || ""}
-          onChange={(e) => handleOptionChange(question._id, e.target.value)}
-          rows={2}
-        />
-      </div>
+      <Card key={question._id} className="bg-white/[0.04] border-white/10 rounded-3xl overflow-hidden">
+        <CardHeader className="p-8 pb-4">
+          <div className="flex items-center gap-4">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black italic border transition-all ${isAnswered ? "bg-blue-600 border-blue-400 text-white" : "bg-white/5 border-white/10 text-white/40"}`}>
+              {index + 1}
+            </div>
+            <p className="text-xl font-black italic uppercase tracking-tight text-white">{question.questionText}</p>
+          </div>
+        </CardHeader>
+        <CardContent className="px-8 pb-8">
+          <Textarea
+            value={answers[question._id] || ""}
+            onChange={(e) => handleOptionChange(question._id, e.target.value)}
+            placeholder="Synthesize your response..."
+            className="bg-[#030014]/50 border-white/10 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-2xl p-6 text-white placeholder:text-white/20 min-h-[120px]"
+          />
+        </CardContent>
+      </Card>
     )
   }
 
   return (
-    <div className="min-h-svh bg-background">
-      <div className="border-b border-border bg-card">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold mb-1">{title}</h1>
-          <p className="text-muted-foreground text-sm">
-            Course lesson • ~{durationMinutes || 30} min
-          </p>
+    <div className="min-h-svh bg-[#030014] text-white pb-20 relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/10 rounded-full blur-[120px] animate-pulse delay-700" />
+      </div>
+
+      <div className="relative z-10 border-b border-white/10 bg-white/[0.03] backdrop-blur-3xl py-12 px-4 shadow-2xl">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
+          <div className="space-y-3">
+            <Link href={`/courses/${courseId}`} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-blue-400/60 hover:text-blue-400 transition-colors mb-4 group">
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Return to Module Intel
+            </Link>
+            <h1 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">{title}</h1>
+            <div className="flex items-center gap-4">
+              <Badge className="bg-blue-600/10 text-blue-400 border-blue-500/20 font-black tracking-widest uppercase text-[9px] px-3 py-1">
+                Active Lesson Player
+              </Badge>
+              <div className="flex items-center gap-2 text-white/20">
+                <Clock className="w-3.5 h-3.5" />
+                <p className="text-[10px] font-black uppercase tracking-widest">Est. Sync: {durationMinutes || 30} min</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#0a0b25]/80 p-4 px-6 rounded-2xl border border-white/10 backdrop-blur-xl">
+            <div className="flex items-center gap-3">
+              <Activity className="w-5 h-5 text-blue-400 animate-pulse" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/40 leading-none">Status: Connected</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Lesson Content</CardTitle>
+      <div className="max-w-4xl mx-auto px-4 py-16 space-y-16 relative z-10">
+        <Card className="bg-[#0a0b25]/60 backdrop-blur-xl border-white/10 rounded-[40px] overflow-hidden shadow-2xl">
+          <CardHeader className="p-12 pb-6 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex items-center gap-4">
+              <BookOpen className="w-6 h-6 text-blue-400" />
+              <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Lesson Core</CardTitle>
+            </div>
           </CardHeader>
-          <CardContent>
-            <p className="whitespace-pre-line text-sm text-muted-foreground">{content}</p>
+          <CardContent className="p-12">
+            <p className="whitespace-pre-line text-lg font-semibold text-blue-100/70 leading-relaxed">
+              {content}
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Lesson Quiz</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {loadingQuiz ? (
-              <p className="text-muted-foreground text-sm">Loading quiz...</p>
-            ) : !quiz ? (
-              <p className="text-muted-foreground text-sm">
-                Your instructor hasn&apos;t added a quiz for this lesson yet. You can&apos;t
-                finish this lesson until a quiz is available.
-              </p>
-            ) : (
-              <>
-                {quiz.description && (
-                  <p className="text-muted-foreground text-sm mb-2">{quiz.description}</p>
-                )}
+        <div className="space-y-10">
+          <div className="flex items-center gap-6">
+            <div className="h-[2px] grow bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+            <div className="flex items-center gap-3 px-6 py-2 rounded-full border border-blue-500/20 bg-blue-500/10 backdrop-blur-sm">
+              <Target className="w-5 h-5 text-blue-400" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">Knowledge Validation Required</span>
+            </div>
+            <div className="h-[2px] grow bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+          </div>
 
-                <div className="space-y-4">
-                  {quiz.questions.map((q) => renderQuestion(q))}
+          <Card className="bg-[#0a0b25]/80 backdrop-blur-2xl border border-white/10 rounded-[40px] shadow-3xl overflow-hidden">
+            <CardHeader className="p-12 bg-white/[0.03] border-b border-white/10">
+              <div className="flex justify-between items-center">
+                <div className="space-y-1">
+                  <CardTitle className="text-3xl font-black italic uppercase tracking-tighter">Trial Terminal</CardTitle>
+                  <CardDescription className="text-blue-100/40 font-black uppercase tracking-widest text-[10px]">Verify knowledge absorption to synchronize ranking</CardDescription>
                 </div>
+                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
+                  <Activity className="w-7 h-7 text-blue-400" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-12 space-y-10">
+              {loadingQuiz ? (
+                <div className="flex flex-col items-center gap-4 py-12">
+                  <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+                  <p className="text-[10px] font-black text-white/20 uppercase tracking-widest italic animate-pulse">Initializing Trial Database...</p>
+                </div>
+              ) : !quiz ? (
+                <div className="text-center py-20 space-y-6">
+                  <HelpCircle className="w-16 h-16 text-white/5 mx-auto" />
+                  <p className="text-blue-100/30 text-xl font-black italic uppercase tracking-widest max-w-sm mx-auto">
+                    Trial not manifested. Synchronization pending instructor update.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {quiz.description && (
+                    <div className="p-6 rounded-2xl bg-blue-500/5 border border-blue-500/20">
+                      <p className="text-blue-100/60 font-medium italic tracking-tight">{quiz.description}</p>
+                    </div>
+                  )}
 
-                <Button onClick={handleSubmitQuiz} disabled={submitting}>
-                  {submitting ? "Submitting..." : "Submit Quiz & Finish Lesson"}
-                </Button>
-              </>
-            )}
+                  <div className="space-y-8">
+                    {quiz.questions.map((q, idx) => renderQuestion(q, idx))}
+                  </div>
 
-            {statusMessage && (
-              <p className="text-sm mt-2">
-                {statusMessage}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+                  <div className="pt-10 space-y-8">
+                    <Button
+                      onClick={handleSubmitQuiz}
+                      disabled={submitting}
+                      className="w-full h-16 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest text-lg rounded-[24px] shadow-2xl shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-95 group"
+                    >
+                      {submitting ? (
+                        <div className="flex items-center gap-3">
+                          <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                          SYNCHRONIZING...
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          UPLOAD RESULTS & SYNC
+                          <Zap className="w-6 h-6 group-hover:animate-pulse" />
+                        </div>
+                      )}
+                    </Button>
+
+                    {statusMessage && (
+                      <div className={`p-8 rounded-[28px] border flex items-start gap-6 animate-in slide-in-from-top-4 duration-500 ${statusMessage.success
+                        ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
+                        : "bg-rose-500/10 border-rose-500/30 text-rose-400"
+                        }`}>
+                        {statusMessage.success ? <CheckCircle2 className="w-8 h-8 shrink-0" /> : <XCircle className="w-8 h-8 shrink-0" />}
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-1 opacity-50">Node Result Status</p>
+                          <p className="text-lg font-black italic tracking-tight uppercase leading-none">{statusMessage.text}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   )
