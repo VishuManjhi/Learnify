@@ -15,20 +15,14 @@ Experience a premium dark theme designed for maximum focus and visual excellence
 
 ### 🛡️ Student Dashboard
 Track your progress, monitor your Experience Points (XP), and manage your enrolled courses.
-![Student Dashboard](public/student-dashboard.png)
 <img width="1918" height="981" alt="image" src="https://github.com/user-attachments/assets/a1707cd9-c73b-4a37-a918-bd27573c4ed3" />
 
 A Global Leaderboard to be at the top!
-![Student Dashboard](public/leaderboard.png)
 <img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/67d89d21-8dc4-47e2-902d-eb02a5de32e6" />
-
-
-
 
 
 ### 🦾 Teacher Dashboard
 Manage your student registry, create new courses (Knowledge Realms), and design technical assessments.
-![Teacher Dashboard](public/teacher-dashboard.png)
 <img width="1916" height="978" alt="image" src="https://github.com/user-attachments/assets/9a74e89d-33bf-434c-8333-a05cd2c1969a" />
 
 
